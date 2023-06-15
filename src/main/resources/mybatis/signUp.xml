@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.signUpDao">
+    <select id="selectedAllSignUp" resultType="pojo.signUp">
+        select *
+        from swimming.signup
+        where true
+    </select>
+
+    <insert id="addSignUp" parameterType="pojo.signUp">
+        insert into swimming.signup(id,name,telephone,crowd,gender,type,classtype) values(#{id},#{name},#{telephone},#{crowd},#{gender},#{type},#{classtype})
+    </insert>
+
+    <update id="deleteSignUp" parameterType="Integer">
+        DELETE FROM `swimming`.`signup` WHERE (`id` = #{id});
+    </update>
+</mapper>
+

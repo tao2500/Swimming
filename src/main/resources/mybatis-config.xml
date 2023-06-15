@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    <mappers>
+        <mapper resource="mybatis/teacher.xml"/>
+        <mapper resource="mybatis/signUp.xml"/>
+        <mapper resource="mybatis/adminis.xml"/>
+        <mapper resource="mybatis/student.xml"/>
+        <mapper resource="mybatis/activity.xml"/>
+        <mapper resource="mybatis/clas.xml"/>
+        <mapper resource="mybatis/joinactivity.xml"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.teacherDao">
+    <select id="selectedTeacherById" parameterType="Integer" resultType="pojo.teacher">
+        select *
+        from swimming.teacher t
+        where t.id = #{id}
+    </select>
+    <select id="selectedAll" parameterType="Integer" resultType="pojo.teacher">
+        select *
+        from swimming.teacher
+        where true
+    </select>
+
+    <insert id="addTeacher" parameterType="pojo.teacher">
+        INSERT INTO `swimming`.`teacher` (`id`, `password`, `name`, `item`, `order`) VALUES (#{id},#{password},#{name},#{item},#{order});
+    </insert>
+
+    <update id="deleteTeacher" parameterType="Integer">
+        DELETE FROM `swimming`.`teacher` WHERE (`id` = #{id});
+    </update>
+
+    <update id="upDataTeacher" parameterType="pojo.teacher">
+        UPDATE `swimming`.`teacher` SET `password` = #{password},`name` = #{name},`item` = #{item},`order` = #{order} WHERE (`id` = #{id});
+    </update>
+</mapper>
+

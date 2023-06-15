@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.joinactivityDao">
+    <select id="selectedAll" resultType="pojo.joinactivity">
+        select *
+        from swimming.joinactivity
+        where true
+    </select>
+
+    <insert id="addjoinActivity" parameterType="pojo.joinactivity">
+        insert into swimming.joinactivity(id,name,telephone,item,jointime) values(#{id},#{name},#{telephone},#{item},#{overtime})
+    </insert>
+
+    <update id="deletejoinActivity" parameterType="Integer">
+        DELETE FROM `swimming`.`joinactivity` WHERE (`id` = #{id});
+    </update>
+
+    <update id="upData" parameterType="pojo.joinactivity">
+        UPDATE `swimming`.`joinactivity` SET `name` = #{name}, `telephone`= #{telephone}, `item`= #{item},`overtime` = #{overtime} WHERE (`id` = #{id});
+    </update>
+</mapper>
+

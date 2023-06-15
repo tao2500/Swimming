@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.activityDao">
+    <select id="selectedAll" resultType="pojo.activity">
+        select *
+        from swimming.activity
+        where true
+    </select>
+
+    <insert id="addActivity" parameterType="pojo.activity">
+        insert into swimming.activity(id,name,messige,startime,overtime,imgsrc) values(#{id},#{name},#{messige},#{startime},#{overtime},#{imgsrc})
+    </insert>
+
+    <update id="deleteActivity" parameterType="Integer">
+        DELETE FROM `swimming`.`activity` WHERE (`id` = #{id});
+    </update>
+
+    <update id="upData" parameterType="pojo.activity">
+        UPDATE `swimming`.`activity` SET `name` = #{name}, `messige`= #{messige}, `startime`= #{startime},`overtime` = #{overtime},`imgsrc` = #{imgsrc} WHERE (`id` = #{id});
+    </update>
+</mapper>
+

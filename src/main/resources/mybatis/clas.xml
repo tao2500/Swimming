@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.clasDao">
+    <select id="selectedAllClas" resultType="pojo.clas">
+        select *
+        from swimming.clas
+        where true
+    </select>
+
+    <insert id="addClas" parameterType="pojo.clas">
+        insert into swimming.clas(id,crowd,type,startime,endtime,message) values(#{id},#{crowd},#{type},#{startime},#{endtime},#{message})
+    </insert>
+
+    <update id="upDataClas" parameterType="pojo.clas">
+        UPDATE `swimming`.`clas` SET `crowd`= #{crowd}, `type`= #{type},`startime` = #{startime},`endtime` = #{endtime},`message` = #{message} WHERE (`id` = #{id});
+    </update>
+
+    <update id="deleteClas" parameterType="Integer">
+        DELETE FROM `swimming`.`clas` WHERE (`id` = #{id});
+    </update>
+</mapper>
+

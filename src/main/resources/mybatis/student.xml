@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.studentDao">
+    <select id="selectedAllStudent" resultType="pojo.student">
+        select *
+        from swimming.student
+        where true
+    </select>
+
+    <insert id="addStudent" parameterType="pojo.student">
+        insert into swimming.student(id,password,crowd,Gender,name,telephone,item,member,classtype,overtime) values(#{id},#{password},#{crowd},#{Gender},#{name},#{telephone},#{item},#{member},#{classtype},#{overtime})
+    </insert>
+
+    <update id="upDataStudent" parameterType="pojo.student">
+        UPDATE `swimming`.`student` SET `password` = #{password}, `crowd`= #{crowd}, `Gender`= #{Gender},`name` = #{name},`telephone` = #{telephone},`item` = #{item},`member` = #{member},`classtype` = #{classtype}, `overtime` =  #{overtime} WHERE (`id` = #{id});
+    </update>
+
+    <update id="deleteStudent" parameterType="Integer">
+        DELETE FROM `swimming`.`student` WHERE (`id` = #{id});
+    </update>
+
+    <update id="upDataPass" parameterType="pojo.student">
+        UPDATE `swimming`.`student` SET `password` = #{password} WHERE (`name` = #{name} AND `password` = #{telephone});
+    </update>
+</mapper>
+
