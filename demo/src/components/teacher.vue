@@ -2,7 +2,7 @@
     <div id="teacher">
       <div class="child">
         <span v-for="dt of ite">
-          <a><img :src="require('../assets/教'+dt.id+'.jpg')" @click="getById(dt.id)"></a>
+          <a><img :src="require('../assets/教'+dt.id+'.jpg')" @click="getById(dt.id)" alt="教练照片"></a>
           <span>{{dt.name}}</span>
         </span>
       </div>
@@ -24,14 +24,14 @@
           </li>
           <li>专业 方向
             <br/>
-            <span>{{detailData.xiangmu}}</span>
+            <span>{{detailData.item}}</span>
           </li>
           <li>成就 证书
             <br/>
-            <span>{{detailData.beizhu}}</span>
+            <span>{{detailData.order}}</span>
           </li>
           <li>
-            <a href="#"><img src="../assets/箭头上.png" class="png"></a>
+            <a href="#"><img src="../assets/箭头上.png" class="png" alt="返回顶部"></a>
 <!--            <a @click.prevent="position('teacher')"><img src="../assets/箭头上.png" class="png"></a>-->
           </li>
         </ul>
@@ -51,7 +51,7 @@
         ite : "",
         errored : false, //判断后端是否出现问题
         loading : false,  //是否加载详情页
-        detailData: {"id":2,"password":"2","name":"彭彩兰","xiangmu":"成人泳、体态调整","beizhu":"中国国家体育总局高级私人教练"},  // 详情页缓存
+        detailData: {"id":2,"password":"2","name":"彭彩兰","item":"成人泳、体态调整","order":"中国国家体育总局高级私人教练"},  // 详情页缓存
         // 教练员照片缓存地
         // imgData: ''
       }
@@ -104,7 +104,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   video{
     width: 100%;
   }

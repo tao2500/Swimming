@@ -88,7 +88,7 @@
 <script>
   import SIdentify from './identify'
   import axios from "axios";
-  import { mapState } from 'vuex';//210
+  import { mapState } from 'vuex';
   export default {
     name: "signIn",
     components: {SIdentify},
@@ -142,10 +142,10 @@
       this.pass = this.$cookies.get('pass');
       this.$store.commit("change",this.sf);
     },
-    computed: {
-      ...mapState([
-        'shengfen',
-      ]),
+    computed:{
+      ...mapState({
+        shengfen: (state) => state.shengfen
+      })
     },
     methods: {
       // 切换验证码
@@ -164,7 +164,7 @@
         if (this.inputCode === this.identifyCode) {
           if(this.pass === 666666){
             this.upDataBoxMessage = "首次登陆请修改密码!";
-            this.upDataBox = this.upDataBox !== true;
+            this.upDataBox = !this.upDataBox;
             this.showUpDataMessage = true;
             setTimeout(() => {this.showUpDataMessage = false}, 2000);
           }
@@ -217,17 +217,17 @@
       },
       // 会员注册
       register() {
-        this.temp.id = '',
-        this.temp.password = '',
-        this.temp.crowd = '',
-        this.temp.gender = '',
-        this.temp.name = '',
-        this.temp.telephone = '',
-        this.temp.xiangmu = '',
-        this.temp.huiyuan = '',
-        this.temp.overtime = new Date(),
-        this.signBoxMessage = '',
-        this.showSignBoxMessage = false,
+        this.temp.id = '';
+        this.temp.password = '';
+        this.temp.crowd = '';
+        this.temp.gender = '';
+        this.temp.name = '';
+        this.temp.telephone = '';
+        this.temp.xiangmu = '';
+        this.temp.huiyuan = '';
+        this.temp.overtime = new Date();
+        this.signBoxMessage = '';
+        this.showSignBoxMessage = false;
         this.signBox = this.signBox !== true
       },
       async sign() {
@@ -249,12 +249,12 @@
         }
       },
       modifyPass() {
-        this.upData.name = '',
-        this.upData.pass = '',
-        this.upData.newPass = '',
-        this.upData.newPassTwo = '',
-        this.upDataBoxMessage = "出错了",
-        this.showUpDataMessage = false,
+        this.upData.name = '';
+        this.upData.pass = '';
+        this.upData.newPass = '';
+        this.upData.newPassTwo = '';
+        this.upDataBoxMessage = "出错了";
+        this.showUpDataMessage = false;
         this.upDataBox = this.upDataBox !== true
       },
       // 修改密码
@@ -300,7 +300,6 @@
             break
           case '':
             this.temp.overtime = new Date(this.temp.overtime.setMonth(this.temp.overtime.getMonth() + 1))
-          default :
         }
       },
       outLogin() {
@@ -313,7 +312,7 @@
     }
   }
 </script>
-<style scoped>
+<style>
   .login_container {
     /*background-image: linear-gradient(-180deg, #1a1454 0%, #0e81a5 100%);*/
     background-image: url("../assets/quanjin.jpg");
@@ -332,19 +331,6 @@
     top: -50px;
     left: 1200px;
   }
-  .el-form {
-    padding: 32px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .el-button {
-    width: 100%;
-  }
-  .code {
-    width: 45%;
-  }
   img {
     /* style="width: 100px; height: 30px; margin-left:5px;vertical-align: middle;" */
     display: inline;
@@ -356,7 +342,6 @@
   }
   .rememberMe {
     display: inline-block;
-    color: #fff;
     font-size: 20px;
     height: 30px;
   }
@@ -378,11 +363,6 @@
   .shengfen{
     position: relative;
     top: -30px;
-  }
-  .work{
-    position: relative;
-    height: 800px;
-    top: 830px;
   }
   .sign-box {
     width: 300px;
