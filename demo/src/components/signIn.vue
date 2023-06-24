@@ -140,8 +140,8 @@
     beforeMount() {
       this.sf = this.$store.state.user.status;
       this.refreshCode();
-      this.name = this.$cookies.get('name');
-      this.pass = this.$cookies.get('pass');
+      this.name = localStorage.getItem("name");
+      this.pass = localStorage.getItem("pass");
     },
     methods: {
       // 切换验证码
@@ -185,12 +185,9 @@
       },
       change() {
         if(this.rememberMe === true){
-          console.log("记住我")
-          this.$cookies.set('name',this.name,"244h");
-          this.$cookies.set('pass',this.pass,"244h")
-        }else {
-          this.$cookies.set('name','',"244h");
-          this.$cookies.set('pass','',"244h")
+          console.log("记住我");
+          localStorage.setItem("name", this.name);
+          localStorage.setItem("pass", this.pass);
         }
         if (this.sf === "管理员") {
           setTimeout(() => {
@@ -300,8 +297,7 @@
       outLogin() {
         this.sf = '游客'
         this.$store.commit("changeSF",this.sf);
-        this.$cookies.set('name','',"244h");
-        this.$cookies.set('pass','',"244h")
+        localStorage.clear();
       },
     }
   }
