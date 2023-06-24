@@ -2,11 +2,9 @@
   <div id="app">
     <Title></Title>
     <Nav class="nav"></Nav>
-<!--    <Bod class="bod"></Bod>-->
     <div class="bod">
       <router-view ></router-view>
     </div>
-<!--    <Te></Te>-->
     <Foot></Foot>
   </div>
 </template>
@@ -23,10 +21,7 @@ export default {
     Nav,
     Bod,
     Foot
-  },
-  methods:{
-
-  },
+  }
 }
 
 </script>

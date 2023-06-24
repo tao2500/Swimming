@@ -10,11 +10,7 @@
       <div id="detail-panel" v-show="loading">
         <ul class="details-left">
           <li>
-
-<!--            加载失败时先注释编译后再取消注释-->
             <img class="details-left-img" :src="require('../assets/教'+detailData.id+'.jpg')" alt="教练的帅照">
-<!--            <img class="details-left-img" :src="require(`${imgData}`)" alt="教练的帅照">-->
-<!--            <img class="details-left-img" src="../assets/教3.jpg" alt="教练的帅照">-->
           </li>
         </ul>
         <ul class="details-right">
@@ -32,7 +28,6 @@
           </li>
           <li>
             <a href="#"><img src="../assets/箭头上.png" class="png" alt="返回顶部"></a>
-<!--            <a @click.prevent="position('teacher')"><img src="../assets/箭头上.png" class="png"></a>-->
           </li>
         </ul>
       </div>
@@ -93,12 +88,6 @@
           // Safari
           window.pageYOffset = total
         }
-      },
-      createSRC(id) {
-        console.log("传入的id为"+id);
-        let src = "../assets/教"+id.toString()+".jpg";
-        console.log("传出src="+src+"转换后");
-        return src
       }
     }
   }

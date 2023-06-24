@@ -43,7 +43,7 @@ public class adminisController {
 
     //143  150
     @RequestMapping("getAll")
-    protected void selectedAllAdminis(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void selectedAllAdminis(HttpServletRequest request, HttpServletResponse response){
         List<adminis> list = sd.selectedAllAdminis();
         ListObject listObject = new ListObject();
         listObject.setItems(list);
@@ -69,25 +69,28 @@ public class adminisController {
 
     @RequestMapping(value = "/Verify")
     public void verifyAdminis(String[] account,HttpServletRequest request, HttpServletResponse response) {
+        System.out.println();
+        System.out.println();
+        System.out.println("收到" + account);
         int state = 202;
         List<adminis> list = sd.selectedAllAdminis();
         if (account!=null){
-            for (int l = 0;l<list.size();l++){
-                if(list.get(l).getName().equals(account[0]) && list.get(l).getPassword().equals(account[1])){
+            for (pojo.adminis adminis : list) {
+                if (adminis.getName().equals(account[0]) && adminis.getPassword().equals(account[1])) {
                     account = null;
                     state = 200;
                     ResponseUtils.renderJson(response, JackJsonUtils.toJson("管理员"));
                     break;
                 }
             }
-        };
+        }
         List<teacher> listt = td.selectedAll();
         if (account!=null){
-            for (int l = 0;l<listt.size();l++){
-                if(listt.get(l).getName().equals(account[0]) && listt.get(l).getPassword().equals(account[1])){
+            for (pojo.teacher teacher : listt) {
+                if (teacher.getName().equals(account[0]) && teacher.getPassword().equals(account[1])) {
                     account = null;
                     state = 200;
-                    String s = listt.get(l).getName();
+                    String s = teacher.getName();
                     ResponseUtils.renderJson(response, JackJsonUtils.toJson(s));
                     break;
                 }
@@ -95,10 +98,10 @@ public class adminisController {
         };
         List<student> lists = std.selectedAllStudent();
         if (account!=null){
-            for (int l = 0;l<lists.size();l++){
-                if(lists.get(l).getName().equals(account[0]) && lists.get(l).getPassword().equals(account[1])){
+            for (pojo.student student : lists) {
+                if (student.getName().equals(account[0]) && student.getPassword().equals(account[1])) {
                     state = 200;
-                    String s = lists.get(l).getName();
+                    String s = student.getName();
                     ResponseUtils.renderJson(response, JackJsonUtils.toJson(s));
                     break;
                 }

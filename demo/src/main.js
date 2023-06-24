@@ -7,7 +7,6 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { Button, Form, FormItem, Input, Checkbox, Image } from 'element-ui'
 import store from './vuex/store'
-import VueCookies from 'vue-cookies'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -16,7 +15,6 @@ Vue.use(Input)
 Vue.use(Checkbox)
 Vue.use(Image)
 Vue.use(VueAxios, axios)
-Vue.use(VueCookies)
 
 Vue.config.productionTip = false
 

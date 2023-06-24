@@ -89,6 +89,7 @@
   import SIdentify from './identify';
   import axios from "axios";
   import {throttle} from "./throttle";
+  import {get, post} from "../../api/signIn"
 
   export default {
     name: "signIn",
@@ -174,14 +175,13 @@
         }
       }),
       async Verify() { //验证账号，保存身份
-        console.log("触发");
         await axios.get("/bigHomeWork/adminis/Verify?account=" + [this.name, this.pass]).then((response) => {
           this.sf = response.data;
           this.change();
         }).catch(error => {
           console.log(error);
           this.baseError = true
-        }).finally()
+        }).finally();
       },
       change() {
         if(this.rememberMe === true){
