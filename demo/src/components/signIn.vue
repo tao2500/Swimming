@@ -22,7 +22,7 @@
             <s-identify :identifyCode="identifyCode" ></s-identify>
           </a>
           <p class="message">{{error}}</p>
-          <p class="shengfen" v-if="shengfen">欢迎您：{{shengfen}}</p>
+          <p class="shengfen" v-if="sf">欢迎您：{{sf}}</p>
         </div>
         <el-form-item>
           <el-checkbox label="记住我" class="rememberMe" v-model="rememberMe"></el-checkbox>
@@ -86,9 +86,10 @@
   </div>
 </template>
 <script>
-  import SIdentify from './identify'
+  import SIdentify from './identify';
   import axios from "axios";
-  import { mapState } from 'vuex';
+  import {throttle} from "./throttle";
+
   export default {
     name: "signIn",
     components: {SIdentify},
@@ -104,6 +105,7 @@
         rememberMe: '',
         sf: '游客',  //暂存后端返回数据
         box: true,
+        // 注册组件
         signBox: false,
         upDataBox: false,
         showSignBoxMessage: false,
@@ -136,16 +138,10 @@
       }
     },
     beforeMount() {
+      this.sf = this.$store.state.user.status;
       this.refreshCode();
-      this.sf = this.$cookies.get('shengfen');
       this.name = this.$cookies.get('name');
       this.pass = this.$cookies.get('pass');
-      this.$store.commit("change",this.sf);
-    },
-    computed:{
-      ...mapState({
-        shengfen: (state) => state.shengfen
-      })
     },
     methods: {
       // 切换验证码
@@ -159,14 +155,14 @@
           this.identifyCode += o[Math.floor(Math.random() * o.length)]
         }
       },
-      login() {
+      login: throttle(function (){
         // this.inputCode === this.identifyCode
         if (this.inputCode === this.identifyCode) {
           if(this.pass === 666666){
             this.upDataBoxMessage = "首次登陆请修改密码!";
             this.upDataBox = !this.upDataBox;
             this.showUpDataMessage = true;
-            setTimeout(() => {this.showUpDataMessage = false}, 2000);
+            setTimeout(() => {this.showUpDataMessage = false}, 0);
           }
           this.Verify();
         } else {
@@ -176,12 +172,11 @@
           }, 3000);
           this.refreshCode();
         }
-      },
+      }),
       async Verify() { //验证账号，保存身份
+        console.log("触发");
         await axios.get("/bigHomeWork/adminis/Verify?account=" + [this.name, this.pass]).then((response) => {
           this.sf = response.data;
-          this.$cookies.set('shengfen',this.sf,"1h");
-          this.$store.commit("change",{value:this.sf});
           this.change();
         }).catch(error => {
           console.log(error);
@@ -190,7 +185,7 @@
       },
       change() {
         if(this.rememberMe === true){
-          console.log("记住我=" + this.rememberMe)
+          console.log("记住我")
           this.$cookies.set('name',this.name,"244h");
           this.$cookies.set('pass',this.pass,"244h")
         }else {
@@ -213,7 +208,7 @@
               this.box = false
             }, 2000);
         }
-        this.$store.commit("change", this.sf);
+        this.$store.commit("changeSF", this.sf);
       },
       // 会员注册
       register() {
@@ -228,13 +223,13 @@
         this.temp.overtime = new Date();
         this.signBoxMessage = '';
         this.showSignBoxMessage = false;
-        this.signBox = this.signBox !== true
+        this.signBox = !this.signBox
       },
-      async sign() {
+      sign: throttle(async function () {
         if (this.temp.password !== '' && this.temp.name !== '' && this.temp.huiyuan !== '' && this.temp.telephone !== '') {
           this.changeOverTime(this.temp);
           this.temp.overtime = this.temp.overtime.toISOString();
-          await axios.get("/bigHomeWork/student/add?account=" + [this.temp.password, this.temp.crowd, this.temp.gender, this.temp.name, this.temp.xiangmu, this.temp.huiyuan, this.temp.overtime, this.temp.telephone,'']
+          await axios.get("/bigHomeWork/student/add?account=" + [this.temp.password, this.temp.crowd, this.temp.gender, this.temp.name, this.temp.xiangmu, this.temp.huiyuan, this.temp.overtime, this.temp.telephone, '']
           ).then((response) => {
             this.signBoxMessage = response.data;
             this.showSignBoxMessage = true;
@@ -242,12 +237,12 @@
           }).catch(error => {
             console.log(error);
           })
-        }else {
+        } else {
           this.signBoxMessage = "请输入完整信息"
           this.showSignBoxMessage = true;
           setTimeout(() => this.showSignBoxMessage = false, 2000)
         }
-      },
+      }),
       modifyPass() {
         this.upData.name = '';
         this.upData.pass = '';
@@ -255,16 +250,16 @@
         this.upData.newPassTwo = '';
         this.upDataBoxMessage = "出错了";
         this.showUpDataMessage = false;
-        this.upDataBox = this.upDataBox !== true
+        this.upDataBox = !this.upDataBox
       },
       // 修改密码
-      SubmitUpData() {
+      SubmitUpData: throttle(function (){
         if (this.upData.newPass !== this.upData.newPassTwo){
           this.upDataBoxMessage = "输入新密码不一致"
           this.showUpDataMessage = true;
           setTimeout(() => this.showUpDataMessage = false, 2000)
         }else {
-          if (this.upData.newPass !== '' && this.upData.name !== '' && this.upData.pass !== '') {
+          if (this.upData.newPass && this.upData.name && this.upData.pass) {
             this.upPass()
           }else {
             this.upDataBoxMessage = "请输入完整信息"
@@ -272,7 +267,7 @@
             setTimeout(() => this.showUpDataMessage = false, 2000)
           }
         }
-      },
+      }),
       async upPass() {
         await axios.get("/bigHomeWork/student/upPass?account=" + [this.upData.name, this.upData.pass, this.upData.newPass]
         ).then((response) => {
@@ -304,8 +299,7 @@
       },
       outLogin() {
         this.sf = '游客'
-        this.$cookies.set('shengfen',this.sf,"244h")
-        this.$store.commit("change",this.sf);
+        this.$store.commit("changeSF",this.sf);
         this.$cookies.set('name','',"244h");
         this.$cookies.set('pass','',"244h")
       },

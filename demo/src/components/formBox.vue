@@ -59,10 +59,9 @@
     methods: {
       async add(){
         // if(this.input3 != null){
-        if(this.formMess.account != '' && this.formMess.input1 != '' && this.formMess.phone != ''){
+        if(this.formMess.account && this.formMess.input1 && this.formMess.phone){
           await axios.get("/bigHomeWork/singUp/add?account="+[this.formMess.account,this.formMess.phone,this.formMess.input1,this.formMess.input2,this.formMess.input3,this.formMess.input4],
           ).then((response) => {
-            console.log("返回的信息为"+response);
             this.detailData = response;
             this.$emit('show','报名成功！请等待教练员与您联系');
           }).catch(error => {

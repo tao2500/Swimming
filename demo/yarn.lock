@@ -7704,7 +7704,7 @@
     "@vue/compiler-sfc" "2.7.5"
     "csstype" "^3.1.0"
 
-"vuex@^2.1.1":
+"vuex@^2.5.0":
   "integrity" "sha512-5oJPOJySBgSgSzoeO+gZB/BbN/XsapgIF6tz34UwJqnGZMQurzIO3B4KIBf862gfc9ya+oduY5sSkq+5/oOilQ=="
   "resolved" "https://registry.npmjs.org/vuex/-/vuex-2.5.0.tgz"
   "version" "2.5.0"

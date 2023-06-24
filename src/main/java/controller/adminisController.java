@@ -69,13 +69,15 @@ public class adminisController {
 
     @RequestMapping(value = "/Verify")
     public void verifyAdminis(String[] account,HttpServletRequest request, HttpServletResponse response) {
-        int state = 1;
+        int state = 202;
         List<adminis> list = sd.selectedAllAdminis();
         if (account!=null){
             for (int l = 0;l<list.size();l++){
                 if(list.get(l).getName().equals(account[0]) && list.get(l).getPassword().equals(account[1])){
+                    account = null;
                     state = 200;
                     ResponseUtils.renderJson(response, JackJsonUtils.toJson("管理员"));
+                    break;
                 }
             }
         };
@@ -83,9 +85,11 @@ public class adminisController {
         if (account!=null){
             for (int l = 0;l<listt.size();l++){
                 if(listt.get(l).getName().equals(account[0]) && listt.get(l).getPassword().equals(account[1])){
-                    state = 0;
+                    account = null;
+                    state = 200;
                     String s = listt.get(l).getName();
                     ResponseUtils.renderJson(response, JackJsonUtils.toJson(s));
+                    break;
                 }
             }
         };
@@ -96,16 +100,16 @@ public class adminisController {
                     state = 200;
                     String s = lists.get(l).getName();
                     ResponseUtils.renderJson(response, JackJsonUtils.toJson(s));
+                    break;
                 }
             }
         }
-        if (state == 1)
+        if (state == 202)
         ResponseUtils.renderJson(response, JackJsonUtils.toJson("查无此账号"));
     }
 
     public int createId(){
         Random df = new Random();
-        int i = df.nextInt(9999999);
-        return i;
+        return df.nextInt(9999999);
     }
 }
