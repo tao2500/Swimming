@@ -27,7 +27,6 @@
         messige: '',
         startime: '',
         overtime: '',
-        shengfen: '游客',
         imgsrc: require("../assets/青少年泳.jpg"),
         detailData: '',
         // 所有活动
@@ -38,7 +37,6 @@
     },
     created() {
       this.getAll()
-      this.shengfen = this.$cookies.get('shengfen')
     },
     methods: {
       async getAll(){
@@ -56,35 +54,27 @@
         date = date.substring(0, 19).replace('T', ' ')
         return date
       },
-      // createImgList() {
-      //   for (let img in this.pattry){
-      //     let src = img.imgsrc
-      //     this.imgArr.push({imgSrc: require("./" + src)});
-      //   }
-      // }
       onClick(name) {
-        if(this.shengfen == "游客" || this.shengfen == ''){
+        if(this.$store.state.user.status === "游客" || this.$store.state.user.status === ''){
           alert("非会员/学员无法参赛！请先行注册")
         }else {
           this.add(name);
         }
       },
       async add(title){
-        let score = prompt("请输入您的联系方式","")
-        if (score != null){
-          await axios.get("/bigHomeWork/joinactivity/add?account="+[this.$cookies.get('shengfen'),score,title,new Date().toISOString()],
+        let score = prompt("请输入您的联系方式","");
+        if (new RegExp(/(^1\d{10}$)|(^[0-9]\d{7}$)/).test(score)){
+          await axios.get("/bigHomeWork/joinactivity/add?account="+[this.$store.state.user.status,score,title,new Date().toISOString()],
           ).then((response) => {
-            alert("报名成功！")
+            alert("报名成功！");
             this.detailData = response;
           }).catch(error => {
             console.log(error);
             this.errored = true
           })
         }else {
-          console.log("用户放弃了报名")
+          alert("请输入正确的手机号！");
         }
-
-
       },
     }
   }

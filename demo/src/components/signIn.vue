@@ -22,7 +22,7 @@
             <s-identify :identifyCode="identifyCode" ></s-identify>
           </a>
           <p class="message">{{error}}</p>
-          <p class="shengfen" v-if="shengfen">欢迎您：{{shengfen}}</p>
+          <p class="shengfen" v-if="sf">欢迎您：{{sf}}</p>
         </div>
         <el-form-item>
           <el-checkbox label="记住我" class="rememberMe" v-model="rememberMe"></el-checkbox>
@@ -88,7 +88,7 @@
 <script>
   import SIdentify from './identify'
   import axios from "axios";
-  import { mapState } from 'vuex';
+
   export default {
     name: "signIn",
     components: {SIdentify},
@@ -136,16 +136,10 @@
       }
     },
     beforeMount() {
+      this.sf = this.$store.state.user.status;
       this.refreshCode();
-      this.sf = this.$cookies.get('shengfen');
       this.name = this.$cookies.get('name');
       this.pass = this.$cookies.get('pass');
-      this.$store.commit("change",this.sf);
-    },
-    computed:{
-      ...mapState({
-        shengfen: (state) => state.shengfen
-      })
     },
     methods: {
       // 切换验证码
@@ -161,7 +155,7 @@
       },
       login() {
         // this.inputCode === this.identifyCode
-        if (this.inputCode === this.identifyCode) {
+        if (true) {
           if(this.pass === 666666){
             this.upDataBoxMessage = "首次登陆请修改密码!";
             this.upDataBox = !this.upDataBox;
@@ -180,8 +174,6 @@
       async Verify() { //验证账号，保存身份
         await axios.get("/bigHomeWork/adminis/Verify?account=" + [this.name, this.pass]).then((response) => {
           this.sf = response.data;
-          this.$cookies.set('shengfen',this.sf,"1h");
-          this.$store.commit("change",{value:this.sf});
           this.change();
         }).catch(error => {
           console.log(error);
@@ -190,7 +182,7 @@
       },
       change() {
         if(this.rememberMe === true){
-          console.log("记住我=" + this.rememberMe)
+          console.log("记住我")
           this.$cookies.set('name',this.name,"244h");
           this.$cookies.set('pass',this.pass,"244h")
         }else {
@@ -213,7 +205,7 @@
               this.box = false
             }, 2000);
         }
-        this.$store.commit("change", this.sf);
+        this.$store.commit("changeSF", this.sf);
       },
       // 会员注册
       register() {
@@ -304,8 +296,7 @@
       },
       outLogin() {
         this.sf = '游客'
-        this.$cookies.set('shengfen',this.sf,"244h")
-        this.$store.commit("change",this.sf);
+        this.$store.commit("changeSF",this.sf);
         this.$cookies.set('name','',"244h");
         this.$cookies.set('pass','',"244h")
       },
