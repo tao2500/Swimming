@@ -50,16 +50,17 @@ public class signUpController {
     }
 
     @RequestMapping(value = "/add")
-    public void addSignUp(String[] account,HttpServletRequest request, HttpServletResponse response) {
+    public void addSignUp(HttpServletRequest request, HttpServletResponse response) {
         signUp s = new signUp();
+        Map<String, String[]> m = request.getParameterMap();
         s.setId(createId());
-        s.setName(account[0]);
-        s.setTelephone(account[1]);
-        s.setCrowd(account[2]);
-        s.setGender(account[3]);
-        s.setType(account[4]);
-        s.setClasstype(account[5]);
-        if (account!=null){
+        s.setName(m.get("account[0]")[0]);
+        s.setTelephone(m.get("account[1]")[0]);
+        s.setCrowd(m.get("account[2]")[0]);
+        s.setGender(m.get("account[3]")[0]);
+        s.setType(m.get("account[4]")[0]);
+        s.setClasstype(m.get("account[5]")[0]);
+        if (m.get("account[0]")!=null){
             while (!sd.addSignUp(s)){
                 s.setId(createId());
             }

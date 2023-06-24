@@ -24,9 +24,9 @@ module.exports = {
       }
     },
 
-    // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    // 各种开发服务器设置
+    host: 'localhost', // 可以被process.env.HOST覆盖
+    port: 8080, // 可以被process.env.PORT覆盖，如果端口正在使用，将确定一个空闲端口
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -40,8 +40,8 @@ module.exports = {
     // https://webpack.js.org/configuration/devtool/#development
     devtool: 'cheap-module-eval-source-map',
 
-    // If you have problems debugging vue-files in devtools,
-    // set this to false - it *may* help
+    //如果您在devtools中调试vue文件时遇到问题，
+    //将其设置为false-这可能会有所帮助
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
@@ -65,17 +65,17 @@ module.exports = {
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
-    // Gzip off by default as many popular static hosts such as
-    // Surge or Netlify already gzip all static assets for you.
-    // Before setting to `true`, make sure to:
-    // npm install --save-dev compression-webpack-plugin
+    //Gzip默认关闭许多流行的静态主机，例如
+    //Surge或Netlify已经为您打包了所有静态资产。
+    //在设置为“true”之前，请确保：
+    //npm安装—保存dev压缩webpack插件
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
 
-    // Run the build command with an extra argument to
-    // View the bundle analyzer report after build finishes:
-    // `npm run build --report`
-    // Set to `true` or `false` to always turn it on or off
+    //运行带有额外参数的build命令以
+    //生成完成后查看捆绑包分析器报告：
+    //`npm运行生成--报告`
+    //设置为“true”或“false”以始终打开或关闭它
     bundleAnalyzerReport: process.env.npm_config_report
   }
 }

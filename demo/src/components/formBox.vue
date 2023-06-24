@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  import {joinStudent, getAllClass} from "../../api/fromBox";
 
   export default {
     name: "from",
@@ -60,7 +60,7 @@
       async add(){
         // if(this.input3 != null){
         if(this.formMess.account && this.formMess.input1 && this.formMess.phone){
-          await axios.get("/bigHomeWork/singUp/add?account="+[this.formMess.account,this.formMess.phone,this.formMess.input1,this.formMess.input2,this.formMess.input3,this.formMess.input4],
+          joinStudent({account: [this.formMess.account,this.formMess.phone,this.formMess.input1,this.formMess.input2,this.formMess.input3,this.formMess.input4]},
           ).then((response) => {
             this.detailData = response;
             this.$emit('show','报名成功！请等待教练员与您联系');
@@ -77,8 +77,8 @@
       // 获取数据库中现有班级情况
       async init(){
         // if(this.input3 != null){
-        await axios.get("/bigHomeWork/clas/getAll").then((response) => {
-          this.classData = response.data.items;
+       getAllClass().then((response) => {
+          this.classData = response.items;
           this.createData();
         }).catch(error => {
           console.log(error);

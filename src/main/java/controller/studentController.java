@@ -17,9 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @RestController
 @Controller
@@ -46,19 +44,20 @@ public class studentController {
     }
 
     @RequestMapping(value = "/add")
-    public void addSignUp(String[] account,HttpServletRequest request, HttpServletResponse response) {
+    public void addSignUp(HttpServletRequest request, HttpServletResponse response) {
         student s = new student();
+        Map<String, String[]> m = request.getParameterMap();
         s.setId(createId());
-        s.setPassword(account[0]);
-        s.setCrowd(account[1]);
-        s.setGender(account[2]);
-        s.setName(account[3]);
-        s.setItem(account[4]);
-        s.setMember(account[5]);
-        s.setOvertime(account[6]);
-        s.setTelephone(account[7]);
-        s.setClasstype(account[8]);
-        if (account!=null){
+        s.setPassword(m.get("account[0]")[0]);
+        s.setCrowd(m.get("account[1]")[0]);
+        s.setGender(m.get("account[2]")[0]);
+        s.setName(m.get("account[3]")[0]);
+        s.setItem(m.get("account[4]")[0]);
+        s.setMember(m.get("account[5]")[0]);
+        s.setOvertime(m.get("account[6]")[0]);
+        s.setTelephone(m.get("account[7]")[0]);
+        s.setClasstype(m.get("account[8]")[0]);
+        if (m.get("account[0]")!=null){
             while (!sd.addStudent(s)){
                 s.setId(createId());
             }
@@ -67,12 +66,13 @@ public class studentController {
    }
 
     @RequestMapping(value = "/upPass")
-    public void upPass(String[] account,HttpServletRequest request, HttpServletResponse response) {
+    public void upPass(HttpServletRequest request, HttpServletResponse response) throws IOException {
         student s = new student();
-        s.setName(account[0]);
+        Map<String, String[]> m = request.getParameterMap();
+        s.setName(m.get("account[0]")[0]);
         // 实际存储旧密码
-        s.setTelephone(account[1]);
-        s.setPassword(account[2]);
+        s.setTelephone(m.get("account[1]")[0]);
+        s.setPassword(m.get("account[2]")[0]);
         if (sd.upDataPass(s)){
             ResponseUtils.renderJson(response, JackJsonUtils.toJson("修改成功"));
         }else {

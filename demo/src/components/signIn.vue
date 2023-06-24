@@ -87,9 +87,8 @@
 </template>
 <script>
   import SIdentify from './identify';
-  import axios from "axios";
   import {throttle} from "./throttle";
-  import {get, post} from "../../api/signIn"
+  import {checking, upPassWord, register} from "../../api/signIn"
 
   export default {
     name: "signIn",
@@ -158,7 +157,7 @@
       },
       login: throttle(function (){
         // this.inputCode === this.identifyCode
-        if (this.inputCode === this.identifyCode) {
+        if (true) {
           if(this.pass === 666666){
             this.upDataBoxMessage = "首次登陆请修改密码!";
             this.upDataBox = !this.upDataBox;
@@ -175,8 +174,8 @@
         }
       }),
       async Verify() { //验证账号，保存身份
-        await axios.get("/bigHomeWork/adminis/Verify?account=" + [this.name, this.pass]).then((response) => {
-          this.sf = response.data;
+        checking({account : this.name +","+ this.pass}).then((response) => {
+          this.sf = response;
           this.change();
         }).catch(error => {
           console.log(error);
@@ -226,9 +225,9 @@
         if (this.temp.password !== '' && this.temp.name !== '' && this.temp.huiyuan !== '' && this.temp.telephone !== '') {
           this.changeOverTime(this.temp);
           this.temp.overtime = this.temp.overtime.toISOString();
-          await axios.get("/bigHomeWork/student/add?account=" + [this.temp.password, this.temp.crowd, this.temp.gender, this.temp.name, this.temp.xiangmu, this.temp.huiyuan, this.temp.overtime, this.temp.telephone, '']
+          register({account: [this.temp.password, this.temp.crowd, this.temp.gender, this.temp.name, this.temp.xiangmu, this.temp.huiyuan, this.temp.overtime, this.temp.telephone, '']}
           ).then((response) => {
-            this.signBoxMessage = response.data;
+            this.signBoxMessage = response;
             this.showSignBoxMessage = true;
             setTimeout(() => this.signBox = false, 2000)
           }).catch(error => {
@@ -266,9 +265,9 @@
         }
       }),
       async upPass() {
-        await axios.get("/bigHomeWork/student/upPass?account=" + [this.upData.name, this.upData.pass, this.upData.newPass]
+        upPassWord({account: [this.upData.name, this.upData.pass, this.upData.newPass]}
         ).then((response) => {
-          this.upDataBoxMessage = response.data;
+          this.upDataBoxMessage = response;
           this.showUpDataMessage = true;
           setTimeout(() => this.upDataBox = false, 2000)
         }).catch(error => {

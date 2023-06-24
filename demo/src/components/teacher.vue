@@ -36,8 +36,7 @@
 </template>
 
 <script>
-  // import {queryRequestApplyPage} from '../api/test';
-  import axios from "axios";
+  import {getAllTeacher, getTeacher} from '../../api/teacher'
   export default {
     name: "teacher",
     data (){
@@ -47,8 +46,6 @@
         errored : false, //判断后端是否出现问题
         loading : false,  //是否加载详情页
         detailData: {"id":2,"password":"2","name":"彭彩兰","item":"成人泳、体态调整","order":"中国国家体育总局高级私人教练"},  // 详情页缓存
-        // 教练员照片缓存地
-        // imgData: ''
       }
     },
     beforeMount() {
@@ -56,18 +53,17 @@
     },
     methods: {
       async getAll(){
-        await axios.get('/bigHomeWork/teacher/getAll').then((response) => {
-          // console.log(response);
-          this.ite = response.data.items
+        getAllTeacher().then((response) => {
+          this.ite = response.items
         }).catch(error => {
           console.log(error);
           this.errored = true
         }).finally(() => this.loading = false)
       },
       async getById(int){
-        await axios.get('/bigHomeWork/teacher/getById?id='+int).then((response) => {
+        getTeacher({id: int}).then((response) => {
           // console.log(response);
-          this.detailData = response.data.items[0];
+          this.detailData = response.items[0];
           // this.imgData = response.data.items[0].img;
           this.position('detail-panel');
         }).catch(error => {

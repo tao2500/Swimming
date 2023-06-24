@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import axios from "axios";
+  import {getAllActivity, joinActivity} from "../../api/activity";
 
   export default {
     name: "activity",
@@ -40,9 +40,9 @@
     },
     methods: {
       async getAll(){
-        await axios.get('/bigHomeWork/activity/getAll').then((response) => {
+        getAllActivity().then((response) => {
           this.detailData = response;
-          this.pattry = response.data.items
+          this.pattry = response.items
         }).catch(error => {
           this.errored = true
         }).finally(() => this.loading = false)
@@ -64,7 +64,7 @@
       async add(title){
         let score = prompt("请输入您的联系方式","");
         if (new RegExp(/(^1\d{10}$)|(^[0-9]\d{7}$)/).test(score)){
-          await axios.get("/bigHomeWork/joinactivity/add?account="+[this.$store.state.user.status,score,title,new Date().toISOString()],
+          joinActivity({account: [this.$store.state.user.status,score,title,new Date().toISOString()]},
           ).then((response) => {
             alert("报名成功！");
             this.detailData = response;

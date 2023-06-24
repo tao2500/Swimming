@@ -21,10 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 @MapperScan("dao.joinactivityDao")
@@ -60,15 +57,16 @@ public class joinactivityController {
     }
 
     @RequestMapping(value = "/add")
-    public void addSignJoinActivity(String[] account,HttpServletRequest request, HttpServletResponse response) {
+    public void addSignJoinActivity(HttpServletRequest request, HttpServletResponse response) {
         joinactivity s = new joinactivity();
+        Map<String, String[]> m = request.getParameterMap();
         s.setId(createId());
-        s.setName(account[0]);
-        s.setTelephone(account[1]);
-        s.setItem(account[2]);
-        s.setOvertime(account[3]);
+        s.setName(m.get("account[0]")[0]);
+        s.setTelephone(m.get("account[1]")[0]);
+        s.setItem(m.get("account[2]")[0]);
+        s.setOvertime(m.get("account[3]")[0]);
         System.out.println("成功添加"+ s.toString());
-        if (account!=null){
+        if (m.get("account[0]")!=null){
             while (!dd.addjoinActivity(s)){
                 s.setId(createId());
             }
