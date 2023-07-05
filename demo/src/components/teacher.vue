@@ -1,6 +1,6 @@
 <template>
     <div id="teacher">
-      <div class="child">
+      <div class="teachers">
         <span v-for="dt of ite">
           <a><img :src="require('../assets/教'+dt.id+'.jpg')" @click="getById(dt.id)" alt="教练照片"></a>
           <span>{{dt.name}}</span>
@@ -89,49 +89,4 @@
   }
 </script>
 
-<style>
-  video{
-    width: 100%;
-  }
-  .child img{
-    width: 30%;
-  }
-  .child{
-    height: 750px;
-  }
-  .child span{
-    position: relative;
-    margin: 130px 0;
-    top: 60px;
-  }
-  .child span span{
-    position: relative;
-    writing-mode:vertical-lr;
-    font-size: 18px;
-  }
-  ul{
-    margin: 0 auto;
-    list-style: auto;
-    list-style: none;
-  }
-  ul>li{
-    margin-top: 60px;
-  }
-  .details-left-img{
-    width: 50%;
-  }
-  .details-left{
-    height: 1230px;
-    margin-top: 160px;
-  }
-  .details-right{
-    position: relative;
-    margin: -1280px 0 0 900px;
-    line-height: 30px;
-    height: 600px;
-    width: 500px;
-  }
-  .png{
-    width: 13%;
-  }
-</style>
+<style lang="less" src="../css/teacher.less"/>

@@ -1,0 +1,19 @@
+.activity{
+  width: 400px;
+  display: inline-block;
+  margin: 80px 50px;
+}
+.imgBox img{
+  width: 400px;
+  margin-bottom: 20px;
+}
+.message{
+  width: 400px;
+  display: inline-block;
+  text-align: center;
+}
+.button{
+  color: red;
+  font-size: 25px;
+  cursor: pointer;
+}

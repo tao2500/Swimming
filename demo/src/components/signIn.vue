@@ -17,12 +17,12 @@
         </el-form-item>
         <!-- 验证码图片-->
         <div class="logCode">
+          <p class="errMessage">{{error}}</p>
           <a @click="refreshCode">
             <!--验证码组件-->
-            <s-identify :identifyCode="identifyCode" ></s-identify>
+            <s-identify class="linkImg" :identifyCode="identifyCode" ></s-identify>
           </a>
-          <p class="message">{{error}}</p>
-          <p class="shengfen" v-if="sf">欢迎您：{{sf}}</p>
+          <p class="welcome" v-if="sf">欢迎您：{{sf}}</p>
         </div>
         <el-form-item>
           <el-checkbox label="记住我" class="rememberMe" v-model="rememberMe"></el-checkbox>
@@ -61,8 +61,8 @@
       <option v-for="item in genderOptions">{{item}}</option>
       </select>
       <br/><br/>
-      会员：<select v-model="temp.huiyuan">
-      <option v-for="item in huiyuanOptions">{{item}}</option>
+      会员：<select v-model="temp.member">
+      <option v-for="item in memberOptions">{{item}}</option>
       </select>&nbsp;&nbsp;&nbsp;
       <input type="button" value="注册" @click="sign" />
       <br/>
@@ -87,7 +87,7 @@
 </template>
 <script>
   import SIdentify from './identify';
-  import {throttle} from "./throttle";
+  import {throttle} from "../js/throttle";
   import {checking, upPassWord, register} from "../../api/signIn"
 
   export default {
@@ -121,8 +121,8 @@
           gender: '',
           name: '',
           telephone: '',
-          xiangmu: '',
-          huiyuan: '',
+          project: '',
+          member: '',
           overtime: new Date() // 开卡时间(格林威治时间)，再根据会员类型转换为截止时间
         },
         upData: {
@@ -133,8 +133,8 @@
         },
         statusOptions: ['儿童', '成人'],
         genderOptions: ['男', '女'],
-        huiyuanOptions: ['大众周卡', '黄金月卡', '铂金季卡', '黑金年卡'],
-        xiangmuOptions: ['自由泳', '蝶泳', '蛙泳', '仰泳', '花样游泳']
+        memberOptions: ['大众周卡', '黄金月卡', '铂金季卡', '黑金年卡'],
+        projectOptions: ['自由泳', '蝶泳', '蛙泳', '仰泳', '花样游泳']
       }
     },
     beforeMount() {
@@ -155,14 +155,16 @@
           this.identifyCode += o[Math.floor(Math.random() * o.length)]
         }
       },
-      login: throttle(function (){
+      login: throttle(function () {
         // this.inputCode === this.identifyCode
-        if (true) {
-          if(this.pass === 666666){
+        if (this.inputCode === this.identifyCode) {
+          if (this.pass === 666666) {
             this.upDataBoxMessage = "首次登陆请修改密码!";
             this.upDataBox = !this.upDataBox;
             this.showUpDataMessage = true;
-            setTimeout(() => {this.showUpDataMessage = false}, 0);
+            setTimeout(() => {
+              this.showUpDataMessage = false
+            }, 0);
           }
           this.Verify();
         } else {
@@ -174,7 +176,7 @@
         }
       }),
       async Verify() { //验证账号，保存身份
-        checking({account : this.name +","+ this.pass}).then((response) => {
+        checking({account: this.name + "," + this.pass}).then((response) => {
           this.sf = response;
           this.change();
         }).catch(error => {
@@ -183,7 +185,7 @@
         }).finally();
       },
       change() {
-        if(this.rememberMe === true){
+        if (this.rememberMe === true) {
           console.log("记住我");
           localStorage.setItem("name", this.name);
           localStorage.setItem("pass", this.pass);
@@ -193,16 +195,16 @@
             this.box = false
           }, 2000);
           setTimeout(() => {
-            window.open('http://localhost:9527/#/dashboard?vehicleId="+ id','_blank');
+            window.open('http://localhost:9527/#/dashboard?vehicleId="+ id', '_blank');
             this.$router.push(`http://localhost:9527/#/dashboard?id=${4}`)
           }, 2000);
-        }else if (this.sf === "查无此账号") {
+        } else if (this.sf === "查无此账号") {
           alert(this.sf);
           this.outLogin();
         } else {
-            setTimeout(() => {
-              this.box = false
-            }, 2000);
+          setTimeout(() => {
+            this.box = false
+          }, 2000);
         }
         this.$store.commit("changeSF", this.sf);
       },
@@ -214,18 +216,18 @@
         this.temp.gender = '';
         this.temp.name = '';
         this.temp.telephone = '';
-        this.temp.xiangmu = '';
-        this.temp.huiyuan = '';
+        this.temp.project = '';
+        this.temp.member = '';
         this.temp.overtime = new Date();
         this.signBoxMessage = '';
         this.showSignBoxMessage = false;
         this.signBox = !this.signBox
       },
       sign: throttle(async function () {
-        if (this.temp.password !== '' && this.temp.name !== '' && this.temp.huiyuan !== '' && this.temp.telephone !== '') {
+        if (this.temp.password !== '' && this.temp.name !== '' && this.temp.member !== '' && this.temp.telephone !== '') {
           this.changeOverTime(this.temp);
           this.temp.overtime = this.temp.overtime.toISOString();
-          register({account: [this.temp.password, this.temp.crowd, this.temp.gender, this.temp.name, this.temp.xiangmu, this.temp.huiyuan, this.temp.overtime, this.temp.telephone, '']}
+          register({account: [this.temp.password, this.temp.crowd, this.temp.gender, this.temp.name, this.temp.project, this.temp.member, this.temp.overtime, this.temp.telephone, '']}
           ).then((response) => {
             this.signBoxMessage = response;
             this.showSignBoxMessage = true;
@@ -249,15 +251,15 @@
         this.upDataBox = !this.upDataBox
       },
       // 修改密码
-      SubmitUpData: throttle(function (){
-        if (this.upData.newPass !== this.upData.newPassTwo){
+      SubmitUpData: throttle(function () {
+        if (this.upData.newPass !== this.upData.newPassTwo) {
           this.upDataBoxMessage = "输入新密码不一致"
           this.showUpDataMessage = true;
           setTimeout(() => this.showUpDataMessage = false, 2000)
-        }else {
+        } else {
           if (this.upData.newPass && this.upData.name && this.upData.pass) {
             this.upPass()
-          }else {
+          } else {
             this.upDataBoxMessage = "请输入完整信息"
             this.showUpDataMessage = true;
             setTimeout(() => this.showUpDataMessage = false, 2000)
@@ -276,7 +278,7 @@
       },
       // 根据开卡时间算出结束时间
       changeOverTime(temp) {
-        switch (temp.huiyuan) {
+        switch (temp.member) {
           case '大众周卡':
             this.temp.overtime = new Date(this.temp.overtime.setSeconds(this.temp.overtime.getSeconds() + 7 * 24 * 60 * 60))
             break
@@ -295,74 +297,17 @@
       },
       outLogin() {
         this.sf = '游客'
-        this.$store.commit("changeSF",this.sf);
+        this.$store.commit("changeSF", this.sf);
         localStorage.clear();
       },
     }
   }
 </script>
-<style>
-  .login_container {
-    /*background-image: linear-gradient(-180deg, #1a1454 0%, #0e81a5 100%);*/
-    background-image: url("../assets/quanjin.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 800px;
-    text-align: center;
-  }
-  .login_box {
-    width: 300px;
-    height: 500px;
-    /* background-color: #fff; */
-    background-color: #2e527bb3;
-    border-radius: 5px;
-    position: absolute;
-    top: -50px;
-    left: 1200px;
-  }
-  img {
-    /* style="width: 100px; height: 30px; margin-left:5px;vertical-align: middle;" */
-    display: inline;
-    width: 45%;
-    height: 48px;
-    margin-left: 10px;
-    vertical-align: middle;
-    border-radius: 3px;
-  }
-  .rememberMe {
-    display: inline-block;
-    font-size: 20px;
-    height: 30px;
-  }
-  .logCode{
-    position: relative;
-    margin: 0;
-  }
-  .logCode a{
-    cursor: pointer;
-  }
-  .logCode a:hover{
-    background: none;
-  }
-  .message{
-    position: absolute;
-    top: -6px;
-    left: 60px;
-  }
-  .shengfen{
-    position: relative;
-    top: -30px;
-  }
-  .sign-box {
-    width: 300px;
-    height: 200px;
-    background-color: #2e527bb3;
-    position: relative;
-    top: 30px;
-    left: 58%;
-  }
-  .showSignBoxMessage{
-    color: black;
-    font-size: 30px;
-  }
-</style>
+<!--全局导入-->
+<!--<link rel="stylesheet/less" type="text/css" href="../css/signIn.less"/>-->
+<!--<script src="../css/less.js"></script>-->
+<!--<style lang="less">-->
+<!--  @import "../css/signIn";-->
+<!--</style>-->
+<!--局部导入-->
+<style lang="less" src="../css/signIn.less"/>

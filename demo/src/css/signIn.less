@@ -1,0 +1,58 @@
+@myColor: #2e527bb3;
+@myWidth: 300px;
+.login_container {
+  background-image: url("../assets/quanjin.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 800px;
+  text-align: center;
+  .login_box {
+    width: @myWidth;
+    height: 500px;
+    background-color: @myColor;
+    border-radius: 5px;
+    float: right;
+    .logCode{
+      position: relative;
+      margin: 0;
+      height: 111px;
+      .errMessage{
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -6px;
+      }
+      .linkImg{
+        display: inline-block;
+        margin-top: 36px;
+        margin-left: -12px;
+        cursor: pointer;
+      }
+      .welcome{
+        position: relative;
+        top: -26px;
+      }
+      a{
+        &:hover{
+          background: none;
+        }
+      }
+    }
+    .rememberMe {
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+  }
+  .sign-box {
+    width: @myWidth;
+    height: 200px;
+    background-color: @myColor;
+    position: relative;
+    top: 30px;
+    left: 58%;
+    .showSignBoxMessage{
+      color: black;
+      font-size: 30px;
+    }
+  }
+}

@@ -1,15 +1,14 @@
 <template>
-  <div id="activity">
-    <div class="ac1" v-for="dt of pattry">
-      <div class="bod">
-        <img :src="require('../assets/'+dt.imgsrc+'.jpg')"/>
-        <br/>
-        <span class="message">
-          {{dt.name}}
-          <p>报名时间：<br>
-            {{ timeTrans(dt.startime) }} - {{ timeTrans(dt.overtime) }}</p>
-          <span class="button" @click="onClick(dt.name)">{{button}}</span>
-        </span>
+  <div>
+    <div class="activity" v-for="dt of activity">
+      <div class="imgBox">
+        <img :src="require('../assets/'+dt.imgsrc+'.jpg')" alt="活动照片"/>
+      </div>
+      <div class="message">
+        {{dt.name}}
+        <p>报名时间：<br>
+          {{ timeTrans(dt.startime) }} - {{ timeTrans(dt.overtime) }}</p>
+        <span class="button" @click="onClick(dt.name)">{{button}}</span>
       </div>
     </div>
   </div>
@@ -24,13 +23,13 @@
       return{
         id: '',
         name: '',
-        messige: '',
+        message: '',
         startime: '',
         overtime: '',
         imgsrc: require("../assets/青少年泳.jpg"),
         detailData: '',
         // 所有活动
-        pattry: {"id":2,"name":"第二十九届“亚特兰蒂斯杯”青少年自游泳锦标赛","messige":"这是一段活动介绍","startime":"2022/8/1","overtime":"2022/8/25","imgsrc":"少年泳"},
+        activity: {"id":2,"name":"第二十九届“亚特兰蒂斯杯”青少年自游泳锦标赛","message":"这是一段活动介绍","startime":"2022/8/1","overtime":"2022/8/25","imgsrc":"少年泳"},
         button: "点击报名",
         errored: false
       }
@@ -42,9 +41,10 @@
       async getAll(){
         getAllActivity().then((response) => {
           this.detailData = response;
-          this.pattry = response.items
+          this.activity = response.items
         }).catch(error => {
           this.errored = true
+          console.log(error)
         }).finally(() => this.loading = false)
       },
       // 将格林威治时间转为北京时间
@@ -80,36 +80,4 @@
   }
 </script>
 
-<style scoped>
-  #activity img{
-    width: 400px;
-  }
-  #activity{
-
-  }
-  .bod{
-    display: inline-block;
-    width: 50%;
-    height: 300px;
-    position: relative;
-    text-align: center;
-  }
-  img{
-    position: relative;
-    margin: 0 0 50px 0;
-  }
-  .message{
-    position: relative;
-    left: 100px;
-  }
-  .ac1{
-    display: inline-block;
-    position: relative;
-    margin: 80px 50px;
-  }
-  .button{
-    color: red;
-    font-size: 25px;
-    cursor: pointer;
-  }
-</style>
+<style scoped src="../css/activity.css"/>

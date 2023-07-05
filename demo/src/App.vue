@@ -38,10 +38,6 @@ export default {
     left: 1050px;
     margin: 0 1050px 0 0;
   }
-  .bod{
-    position: relative;
-    top: -40px;
-  }
   /*html * {*/
   /*  outline: 1px solid red*/
   /*}*/

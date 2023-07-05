@@ -1,7 +1,7 @@
 <template>
   <div id="signUp">
-    <div class="jianjiethree">
-      <p class="jj">PHOTO</p>
+    <div class="myTag">
+      <p class="myTagSty">PHOTO</p>
       <p>馆内照片</p>
     </div>
     <div class="left">
@@ -12,21 +12,21 @@
       <p>{{mess}}</p>
       <p class="out" v-show="state">{{out}}</p>
     </div>
-    <div class="jianjieFour">
-      <p class="jj">CLASS</p>
+    <div class="myTag">
+      <p class="myTagSty">CLASS</p>
       <p>课程介绍</p>
     </div>
-    <div class="classOn">
+    <div class="courseIntroduction">
       <div class="el-icon" v-for="s of this.swimmingType">
-        <div class="imgStyle"><img :src="require('../assets/'+s.name+'.jpg')"></div>
-        <div class="el-icon-message">
+        <span class="imgStyle"><img :src="require('../assets/'+s.name+'.jpg')" alt="游泳照"></span>
+        <span class="el-icon-message">
           {{s.name}}<br><br>
           {{s.message}}<br><br>
           报名要求： {{s.requirement}}<br><br>
           教学目标： {{s.target}}<br><br>
           {{s.childPrice}}<br><br>
           {{s.adultPrice}}
-        </div>
+        </span>
       </div>
     </div>
   </div>
@@ -98,68 +98,4 @@
   }
 </script>
 
-<style scoped>
-  #signUp{
-    margin: 40px 0 0 0;
-  }
-  .left{
-    width: 70%;
-    height: 500px;
-    margin: 60px 0 90px 0;
-  }
-  .right{
-    width: 26%;
-    position: relative;
-    top: -590px;
-    left: 1100px;
-  }
-  .out{
-    position: relative;
-    top: 20px;
-    text-align: center;
-    color: red;
-    font-size: 30px;
-  }
-  .jianjiethree{
-    position: relative;
-    left: 60px;
-    top: -50px;
-    width: 400px;
-    height: 0px;
-  }
-  .jj{
-    color: orange;
-    font-size: 40px;
-    margin: 10px 0 -10px 0;
-  }
-  .jianjieFour {
-    position: relative;
-    left: 60px;
-    top: -350px;
-    width: 400px;
-    height: 0px;
-  }
-  .classOn{
-    display: inline;
-    width: 200px;
-    height: 1500px;
-    position: relative;
-    top: -150px;
-  }
-  .el-icon{
-    width: 30%;
-    text-align: center;
-    float: left;
-    position: relative;
-    left: 30px;
-    margin: 40px 20px;
-  }
-  .imgStyle{
-    height: 260px;
-  }
-  .el-icon-message{
-    height: 350px;
-    position: relative;
-    top: 30px;
-  }
-</style>
+<style scoped src="../css/signUp.css">

@@ -1,0 +1,46 @@
+.swiperBox {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  .imgLeft {
+    left: 0;
+    top: 40%;
+  }
+  .imgLeft,
+  .imgRight {
+    width: 27px;
+    height: 38px;
+    position: absolute;
+    cursor: pointer;
+  }
+  .imgRight {
+    right: 0;
+    top: 40%;
+  }
+  .directionIcon:hover {
+    opacity: 1;
+  }
+  #swiper {
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    .imgBox {
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      overflow: hidden;
+      display: flex;
+      .imgDiv {
+        width: 100%;
+        margin-left: 15px;
+        img {
+          height: 100%;
+          width: 280px;
+        }
+      }
+    }
+  }
+}

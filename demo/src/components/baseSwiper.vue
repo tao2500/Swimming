@@ -5,7 +5,7 @@
     <div id="swiper">
       <div class="imgBox">
         <div class="imgDiv" v-for="(item,index) of imgList" :key="index">
-          <img :src="item" />
+          <img :src="item" alt="场馆设施"/>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
         if (imgBox.offsetLeft > 0) {//向右滚动 提前更新left值，实现循环展示
           imgBox.style.left = -(imgBox.offsetWidth / 2) + 'px';
         }
-        if (self.theDirection == 'left') { //向左滚动,值为负
+        if (self.theDirection === 'left') { //向左滚动,值为负
           self.theSpeed = -Math.abs(self.theSpeed)
         } else { //向右滚动
           self.theSpeed = Math.abs(self.theSpeed)
@@ -72,53 +72,4 @@
     }
   }
 </script>
-<style scoped lang='less'>
-    .swiperBox {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    .imgLeft {
-      left: 0;
-      top: 40%;
-    }
-    .imgLeft,
-    .imgRight {
-      width: 27px;
-      height: 38px;
-      position: absolute;
-      cursor: pointer;
-    }
-    .imgRight {
-      right: 0;
-      top: 40%;
-    }
-    .directionIcon:hover {
-      opacity: 1;
-    }
-    #swiper {
-      width: 90%;
-      height: 100%;
-      margin: 0 auto;
-      overflow: hidden;
-      position: relative;
-      .imgBox {
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        overflow: hidden;
-        display: flex;
-        .imgDiv {
-          width: 100%;
-          margin-left: 15px;
-          img {
-            height: 100%;
-            width: 280px;
-            // width: 260px;
-            // height: 120px;
-          }
-        }
-      }
-    }
-  }
-</style>
+<style scoped lang='less' src="../css/baseSwiper.less"/>
